@@ -291,7 +291,7 @@ def ghaf_parallel_hw_test(String flakeref, String device_config, String testset=
     unstable("FAILED: ${device_config} ${testset}")
     currentBuild.result = "FAILURE"
     // Add a link to failed test job(s) on the calling pipeline
-    test_href = "<a href=\"${job.absoluteUrl}\">⛔ ${flakeref_trimmed}</a>"
+    def test_href = "<a href=\"${job.absoluteUrl}\">⛔ ${flakeref_trimmed}</a>"
     currentBuild.description = "${currentBuild.description}<br>${test_href}"
   }
   // Copy test results from agent to controller to 'test-results' directory
