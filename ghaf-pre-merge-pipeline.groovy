@@ -9,7 +9,7 @@ def REPO_URL = 'https://github.com/tiiuae/ghaf/'
 def WORKDIR  = 'ghaf'
 
 // Defines if there is need to run purge_artifacts
-def purge_stashed_artifacts = false
+def purge_stashed_artifacts = true
 
 // Utils module will be loaded in the first pipeline stage
 def utils = null
