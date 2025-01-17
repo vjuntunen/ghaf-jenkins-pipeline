@@ -213,6 +213,8 @@ pipeline {
         if(purge_stashed_artifacts) {
           // Remove temporary, stashed build results before exiting the pipeline
           utils.purge_artifacts(env.ARTIFACTS_REMOTE_PATH)
+          // Remove build description because of broken artifacts link
+          currentBuild.description = ""
         }
       }
     }
