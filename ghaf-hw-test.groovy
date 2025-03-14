@@ -214,7 +214,7 @@ pipeline {
         }
       }
     }
-    stage('Boot test') {
+    stage('Boot test with TAPO plug') {
       when { expression { env.TESTSET.contains('_boot_') } }
       steps {
         script {
@@ -224,7 +224,7 @@ pipeline {
         }
       }
     }
-    stage('Boot test with relay') {
+    stage('Boot test') {
       when { expression { env.TESTSET.contains('_relayboot_') } }
       steps {
         script {
