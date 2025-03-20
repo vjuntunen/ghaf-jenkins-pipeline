@@ -5,7 +5,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-def REPO_URL = 'https://github.com/tiiuae/ghaf/'
+def REPO_URL = 'https://github.com/vjuntunen/ghaf/'
 def WORKDIR  = 'ghaf'
 
 // Defines if there is need to run purge_artifacts
@@ -57,48 +57,48 @@ def targets = [
     scs: false,
     hwtest_device: null,
   ],
-  [ target: "generic-x86_64-debug",
-    system: "x86_64-linux",
-    archive: true,
-    scs: false,
-    hwtest_device: "nuc",
-  ],
-  [ target: "lenovo-x1-carbon-gen11-debug",
-    system: "x86_64-linux",
-    archive: true,
-    scs: false,
-    hwtest_device: "lenovo-x1",
-  ],
-  [ target: "dell-latitude-7230-debug",
-    system: "x86_64-linux",
-    archive: true,
-    scs: false,
-    hwtest_device: null,
-  ],
-  [ target: "dell-latitude-7330-debug",
-    system: "x86_64-linux",
-    archive: true,
-    scs: false,
-    hwtest_device: null,
-  ],
-  [ target: "nvidia-jetson-orin-agx-debug",
-    system: "aarch64-linux",
-    archive: true,
-    scs: false,
-    hwtest_device: "orin-agx",
-  ],
-  [ target: "nvidia-jetson-orin-agx-debug-from-x86_64",
-    system: "x86_64-linux",
-    archive: true,
-    scs: false,
-    hwtest_device: "orin-agx",
-  ],
-  [ target: "nvidia-jetson-orin-nx-debug",
-    system: "aarch64-linux",
-    archive: true,
-    scs: false,
-    hwtest_device: "orin-nx",
-  ],
+  // [ target: "generic-x86_64-debug",
+  //   system: "x86_64-linux",
+  //   archive: true,
+  //   scs: false,
+  //   hwtest_device: "nuc",
+  // ],
+  // [ target: "lenovo-x1-carbon-gen11-debug",
+  //   system: "x86_64-linux",
+  //   archive: true,
+  //   scs: false,
+  //   hwtest_device: "lenovo-x1",
+  // ],
+  // [ target: "dell-latitude-7230-debug",
+  //   system: "x86_64-linux",
+  //   archive: true,
+  //   scs: false,
+  //   hwtest_device: null,
+  // ],
+  // [ target: "dell-latitude-7330-debug",
+  //   system: "x86_64-linux",
+  //   archive: true,
+  //   scs: false,
+  //   hwtest_device: null,
+  // ],
+  // [ target: "nvidia-jetson-orin-agx-debug",
+  //   system: "aarch64-linux",
+  //   archive: true,
+  //   scs: false,
+  //   hwtest_device: "orin-agx",
+  // ],
+  // [ target: "nvidia-jetson-orin-agx-debug-from-x86_64",
+  //   system: "x86_64-linux",
+  //   archive: true,
+  //   scs: false,
+  //   hwtest_device: "orin-agx",
+  // ],
+  // [ target: "nvidia-jetson-orin-nx-debug",
+  //   system: "aarch64-linux",
+  //   archive: true,
+  //   scs: false,
+  //   hwtest_device: "orin-nx",
+  // ],
   [ target: "nvidia-jetson-orin-nx-debug-from-x86_64",
     system: "x86_64-linux",
     archive: true,
@@ -112,7 +112,10 @@ def targets = [
 pipeline {
   agent { label 'built-in' }
   options {
-    buildDiscarder(logRotator(numToKeepStr: '100'))
+    buildDiscarder(logRotator(
+      numToKeepStr: '100',
+      artifactNumToKeepStr: '5'
+    ))
   }
   stages {
     stage('Checkenv') {
@@ -208,16 +211,16 @@ pipeline {
   }
 
   post {
-    always {
-      script {
-        if(purge_stashed_artifacts) {
-          // Remove temporary, stashed build results before exiting the pipeline
-          utils.purge_artifacts(env.ARTIFACTS_REMOTE_PATH)
-          // Remove build description because of broken artifacts link
-          currentBuild.description = ""
-        }
-      }
-    }
+    // always {
+    //   script {
+    //     if(purge_stashed_artifacts) {
+    //       // Remove temporary, stashed build results before exiting the pipeline
+    //       utils.purge_artifacts(env.ARTIFACTS_REMOTE_PATH)
+    //       // Remove build description because of broken artifacts link
+    //       currentBuild.description = ""
+    //     }
+    //   }
+    // }
     success {
       script {
         setGitHubPullRequestStatus(
