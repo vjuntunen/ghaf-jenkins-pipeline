@@ -169,7 +169,8 @@ pipeline {
           )
           script {
             env.TARGET_COMMIT = sh(script: 'git rev-parse HEAD', returnStdout: true).trim()
-            env.ARTIFACTS_REMOTE_PATH = "stash/${env.BUILD_TAG}-commit_${env.TARGET_COMMIT}"
+            //env.ARTIFACTS_REMOTE_PATH = "stash/${env.BUILD_TAG}-commit_${env.TARGET_COMMIT}"
+            env.ARTIFACTS_REMOTE_PATH = "stash"
           }
         }
       }
