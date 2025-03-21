@@ -215,7 +215,7 @@ pipeline {
       script {
         if(purge_stashed_artifacts) {
           // Remove temporary, stashed build results before exiting the pipeline
-          utils.purge_artifacts_by_age(env.ARTIFACTS_REMOTE_PATH)
+          utils.purge_artifacts_by_age(env.ARTIFACTS_REMOTE_PATH, '12h')
           // Remove build description because of broken artifacts link
           currentBuild.description = ""
         }

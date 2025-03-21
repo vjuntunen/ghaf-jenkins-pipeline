@@ -66,7 +66,7 @@ def purge_artifacts_by_age(String remote_path, String age) {
     println "Warning: skipping artifacts purge, remote_path not set"
     return
   }
-  run_rclone("purge :webdav:/${remote_path} --min-age ${age} --dry-run")
+  run_rclone("purge :webdav:/${remote_path} --min-age ${age}")
 }
 
 def nix_build(String flakeref, String subdir=null) {
