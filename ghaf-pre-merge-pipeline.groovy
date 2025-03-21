@@ -113,8 +113,7 @@ pipeline {
   agent { label 'built-in' }
   options {
     buildDiscarder(logRotator(
-      numToKeepStr: '100',
-      artifactNumToKeepStr: '5'
+      numToKeepStr: '100'
     ))
   }
   stages {
@@ -211,16 +210,16 @@ pipeline {
   }
 
   post {
-    // always {
-    //   script {
-    //     if(purge_stashed_artifacts) {
-    //       // Remove temporary, stashed build results before exiting the pipeline
-    //       utils.purge_artifacts(env.ARTIFACTS_REMOTE_PATH)
-    //       // Remove build description because of broken artifacts link
-    //       currentBuild.description = ""
-    //     }
-    //   }
-    // }
+    always {
+      script {
+        if(purge_stashed_artifacts) {
+          // Remove temporary, stashed build results before exiting the pipeline
+          utils.purge_artifacts_by_age(env.ARTIFACTS_REMOTE_PATH)
+          // Remove build description because of broken artifacts link
+          currentBuild.description = ""
+        }
+      }
+    }
     success {
       script {
         setGitHubPullRequestStatus(
