@@ -236,21 +236,15 @@ pipeline {
         // We don't want to maintain these flashing details here:
         script {
           // Determine mount commands
-          if(params.IMG_URL.contains("microchip-icicle-")) {
-            muxport = get_test_conf_property(CONF_FILE_PATH, env.DEVICE_NAME, 'usb_sd_mux_port')
-            dgrep = 'sdmux'
-            mount_cmd = "/run/wrappers/bin/sudo usbsdmux ${muxport} host; sleep 10"
-            unmount_cmd = "/run/wrappers/bin/sudo usbsdmux ${muxport} dut"
-          } else {
-            serial = get_test_conf_property(CONF_FILE_PATH, env.DEVICE_NAME, 'usbhub_serial')
-            dgrep = 'PSSD'
-            mount_cmd = "/run/wrappers/bin/sudo AcronameHubCLI -u 0 -s ${serial}; sleep 10"
-            unmount_cmd = "/run/wrappers/bin/sudo AcronameHubCLI -u 1 -s ${serial}"
-          }
+          def serial = get_test_conf_property(CONF_FILE_PATH, env.DEVICE_NAME, 'usbhub_serial')
+          def dgrep = 'PSSD'
+          def mount_cmd = "/run/wrappers/bin/sudo AcronameHubCLI -u 0 -s ${serial}; sleep 10"
+          def unmount_cmd = "/run/wrappers/bin/sudo AcronameHubCLI -u 1 -s ${serial}"
+
           // Mount the target disk
           sh "${mount_cmd}"
           // Read the device name
-          dev = get_test_conf_property(CONF_FILE_PATH, env.DEVICE_NAME, 'ext_drive_by-id')
+          def dev = get_test_conf_property(CONF_FILE_PATH, env.DEVICE_NAME, 'ext_drive_by-id')
           println "Using device '$dev'"
           // Wipe possible ZFS leftovers, more details here:
           // https://github.com/tiiuae/ghaf/blob/454b18bc/packages/installer/ghaf-installer.sh#L75
