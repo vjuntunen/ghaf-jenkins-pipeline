@@ -105,7 +105,7 @@ def run_wget(String url, String to_dir) {
 def get_test_conf_property(String file_path, String device, String property) {
   // Get the requested device property data from test_config.json file
   def device_data = readJSON file: file_path
-  property_data = "${device_data['addresses'][device][property]}"
+  def property_data = "${device_data['addresses'][device][property]}"
   println "Got device '${device}' property '${property}' value: '${property_data}'"
   return property_data
 }
